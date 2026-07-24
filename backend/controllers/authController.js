@@ -15,13 +15,14 @@ const signup = async (req, res, next) => {
     }
 
     const { name, email, password } = req.body;
+    const normalizedEmail = email.trim().toLowerCase();
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: normalizedEmail });
     if (existingUser) {
       return res.status(400).json({ success: false, message: 'An account with this email already exists' });
     }
 
-    const user = await User.create({ name, email, password });
+    const user = await User.create({ name, email: normalizedEmail, password });
     const token = generateToken(user._id);
 
     res.status(201).json({
