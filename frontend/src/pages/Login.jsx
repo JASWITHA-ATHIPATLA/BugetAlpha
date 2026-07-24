@@ -23,7 +23,7 @@ const Login = () => {
       const redirectTo = location.state?.from || '/dashboard';
       navigate(redirectTo, { replace: true });
     } catch (err) {
-      const msg = err.response?.data?.message || 'Invalid email or password';
+      const msg = err.response?.data?.message || (err.response ? 'Invalid email or password' : 'Unable to connect to server. The backend may be starting up (Render free tier) or offline. Please wait a few seconds and try again.');
       setError(msg);
       toast.error(msg);
     } finally {

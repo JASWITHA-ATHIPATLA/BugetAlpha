@@ -16,16 +16,25 @@ const app = express();
 // Middleware
 const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
   .split(',')
-  .map((origin) => origin.trim());
+  .map((origin) => origin.trim().replace(/\/$/, ''));
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow non-browser tools (no origin header) and any whitelisted origin
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow non-browser tools / mobile / server-to-server requests (no origin header)
+      if (!origin) return callback(null, true);
+
+      const cleanOrigin = origin.replace(/\/$/, '');
+      const isAllowed =
+        allowedOrigins.includes(cleanOrigin) ||
+        cleanOrigin.endsWith('.vercel.app') ||
+        /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(cleanOrigin);
+
+      if (isAllowed) {
         callback(null, true);
       } else {
-        callback(new Error(`CORS blocked for origin: ${origin}`));
+        console.warn(`[CORS] Blocked request from origin: ${origin}`);
+        callback(null, false);
       }
     },
     credentials: true,

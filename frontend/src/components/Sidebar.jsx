@@ -2,11 +2,9 @@ import { useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
-import api from '../api/axios';
+import api, { API_ORIGIN } from '../api/axios';
 import { initialsFromName } from '../utils/format';
 import { GridIcon, TrendUpIcon, TrendDownIcon, ChartIcon, SettingsIcon, LogoutIcon, CameraIcon } from './Icons';
-
-const API_ORIGIN = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/api\/?$/, '');
 
 const navItems = [
   { to: '/dashboard', label: 'Dashboard', icon: GridIcon },

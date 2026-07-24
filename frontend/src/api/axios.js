@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+export const API_URL = import.meta.env.VITE_API_URL || 'https://alphabugettracker.onrender.com/api';
+export const API_ORIGIN = API_URL.replace(/\/api\/?$/, '');
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: API_URL,
 });
 
 // Attach JWT token to every request if present
@@ -20,7 +23,7 @@ api.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      if (!window.location.pathname.includes('/login')) {
+      if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/signup')) {
         window.location.href = '/login';
       }
     }

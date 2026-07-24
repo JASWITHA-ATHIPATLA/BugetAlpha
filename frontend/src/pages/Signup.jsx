@@ -31,7 +31,7 @@ const Signup = () => {
       toast.success(`Welcome, ${data.user.name.split(' ')[0]}! Account created.`);
       navigate('/dashboard', { replace: true });
     } catch (err) {
-      const msg = err.response?.data?.message || 'Failed to create account';
+      const msg = err.response?.data?.message || (err.response ? 'Failed to create account' : 'Unable to connect to server. The backend may be starting up (Render free tier) or offline. Please wait a few seconds and try again.');
       setError(msg);
       toast.error(msg);
     } finally {

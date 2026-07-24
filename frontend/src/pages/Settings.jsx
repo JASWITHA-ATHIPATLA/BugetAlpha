@@ -1,11 +1,9 @@
 import { useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import api from '../api/axios';
+import api, { API_ORIGIN } from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import { initialsFromName } from '../utils/format';
 import { CameraIcon } from '../components/Icons';
-
-const API_ORIGIN = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/api\/?$/, '');
 
 const Settings = () => {
   const { user, setUser } = useAuth();
