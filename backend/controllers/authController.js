@@ -66,7 +66,6 @@ const login = async (req, res, next) => {
     next(error);
   }
 };
-
 // @desc    Get current logged in user
 // @route   GET /api/auth/me
 // @access  Private
