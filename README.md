@@ -149,7 +149,6 @@ All endpoints are prefixed with `/api`. Protected routes require
 | GET    | `/transactions/export`      | Download transactions as .xlsx        | ✅   |
 
 ## Tech stack
-
 - **Frontend:** React 18 (Vite), React Router 6, Axios, Recharts, react-hot-toast, CSS3
 - **Backend:** Node.js, Express, MongoDB/Mongoose, JWT, bcryptjs, multer, xlsx,
   express-validator, dotenv, cors
