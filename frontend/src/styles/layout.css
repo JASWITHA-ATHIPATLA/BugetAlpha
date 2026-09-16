@@ -80,6 +80,24 @@
   color: var(--color-accent-text);
 }
 
+.sidebar-avatar-preview-trigger {
+  display: block;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.sidebar-avatar-preview-trigger:hover .sidebar-avatar {
+  border-color: var(--color-accent);
+  transform: scale(1.03);
+}
+
+.sidebar-avatar-preview-trigger .sidebar-avatar {
+  transition: border-color var(--transition), transform var(--transition);
+}
+
 .sidebar-avatar-edit {
   position: absolute;
   bottom: -2px;
@@ -101,6 +119,33 @@
 .sidebar-avatar-edit:hover {
   background: var(--color-accent-dark);
   transform: scale(1.06);
+}
+
+.avatar-preview-overlay {
+  z-index: 110;
+}
+
+.avatar-preview-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  width: min(92vw, 520px);
+  box-shadow: var(--shadow-lg);
+  animation: modalRise 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.avatar-preview-image {
+  display: block;
+  width: min(100%, 420px);
+  max-height: 60vh;
+  margin: 0 auto 20px;
+  border-radius: var(--radius-md);
+  object-fit: contain;
+}
+
+.avatar-preview-update {
+  width: 100%;
+  justify-content: center;
 }
 
 .sidebar-profile-name {

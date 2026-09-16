@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 import api, { API_ORIGIN } from '../api/axios';
 import { initialsFromName } from '../utils/format';
-import { GridIcon, TrendUpIcon, TrendDownIcon, ChartIcon, SettingsIcon, LogoutIcon, CameraIcon } from './Icons';
+import { GridIcon, TrendUpIcon, TrendDownIcon, ChartIcon, SettingsIcon, LogoutIcon, CameraIcon, CloseIcon } from './Icons';
 
 const navItems = [
   { to: '/dashboard', label: 'Dashboard', icon: GridIcon },
@@ -19,6 +19,7 @@ const Sidebar = ({ open, onClose }) => {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const [uploading, setUploading] = useState(false);
+  const [showAvatarPreview, setShowAvatarPreview] = useState(false);
 
   const avatarUrl = user?.profilePicture ? `${API_ORIGIN}${user.profilePicture}` : '';
 
@@ -29,6 +30,10 @@ const Sidebar = ({ open, onClose }) => {
   };
 
   const handleAvatarClick = () => fileInputRef.current?.click();
+
+  const handleAvatarPreview = () => {
+    if (avatarUrl) setShowAvatarPreview(true);
+  };
 
   const handleAvatarChange = async (e) => {
     const file = e.target.files?.[0];
@@ -74,7 +79,15 @@ const Sidebar = ({ open, onClose }) => {
         <div className="sidebar-profile">
           <div className="sidebar-avatar-wrap">
             {avatarUrl ? (
-              <img src={avatarUrl} alt={user?.name} className="sidebar-avatar" />
+              <button
+                type="button"
+                className="sidebar-avatar-preview-trigger"
+                onClick={handleAvatarPreview}
+                aria-label="View profile picture"
+                title="View profile picture"
+              >
+                <img src={avatarUrl} alt={user?.name} className="sidebar-avatar" />
+              </button>
             ) : (
               <div className="sidebar-avatar">{initialsFromName(user?.name)}</div>
             )}
@@ -121,6 +134,33 @@ const Sidebar = ({ open, onClose }) => {
           </button>
         </div>
       </aside>
+      {showAvatarPreview && avatarUrl && (
+        <div className="modal-overlay avatar-preview-overlay" onClick={() => setShowAvatarPreview(false)}>
+          <div
+            className="avatar-preview-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="avatar-preview-title"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-header">
+              <h2 id="avatar-preview-title">Profile picture</h2>
+              <button
+                type="button"
+                className="modal-close"
+                onClick={() => setShowAvatarPreview(false)}
+                aria-label="Close profile picture preview"
+              >
+                <CloseIcon />
+              </button>
+            </div>
+            <img src={avatarUrl} alt={`${user?.name}'s profile`} className="avatar-preview-image" />
+            <button type="button" className="btn btn-accent avatar-preview-update" onClick={handleAvatarClick}>
+              <CameraIcon /> Update profile picture
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
